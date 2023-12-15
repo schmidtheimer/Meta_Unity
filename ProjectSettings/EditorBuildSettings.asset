@@ -5,23 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/02_Scenes/01_HandsScene.unity
-    guid: 2271cf64e7da34649bea30d4f8c64b0c
-  - enabled: 0
-    path: Assets/02_Scenes/03_Passthrough.unity
-    guid: 7b02a195071070241ad7e5616c11b358
-<<<<<<< HEAD
   - enabled: 1
     path: Assets/02_Scenes/05_BouncingBallTut.unity
     guid: 61d56e50e14662841bcd5c1565bff151
-=======
-  - enabled: 0
-    path: Assets/01_StarterSamples/Usage/Passthrough.unity
-    guid: 58e5fc2486c774a4e88ac76261268d52
->>>>>>> 237b9d7dcce69890c92dbb09ec0192320b9a6459
+  - enabled: 1
+    path: Assets/01_StarterSamples/Usage/SceneManager.unity
+    guid: d9d629a01189e9744a9347a18243afd9
   m_configObjects:
-    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 0b84ac1e85d7bb34faf1f7d37bcf489d, type: 2}
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 8c0030b4b5984e7439a553df0cdd7dd2, type: 2}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 67031ce161917494688d7e3203b6e379, type: 2}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e4a7c70a16f249e4c808cd14e593ac9c, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 9badd54ecdbe137429df46d43666d7af, type: 2}
