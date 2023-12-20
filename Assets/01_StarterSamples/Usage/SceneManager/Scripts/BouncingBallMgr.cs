@@ -26,6 +26,7 @@ public class BouncingBallMgr : MonoBehaviour
     [SerializeField] private GameObject rightControllerPivot;
     [SerializeField] private OVRInput.RawButton actionBtn;
     [SerializeField] private GameObject ball;
+    public float speed;
 
     private GameObject currentBall;
     private bool ballGrabbed = false;
@@ -43,7 +44,7 @@ public class BouncingBallMgr : MonoBehaviour
         {
             currentBall.transform.parent = null;
             var ballPos = currentBall.transform.position;
-            var vel = trackingspace.rotation * OVRInput.GetLocalControllerVelocity(OVRInput.Controller.RTouch);
+            var vel = trackingspace.rotation * OVRInput.GetLocalControllerVelocity(OVRInput.Controller.RTouch)*speed;
             var angVel = OVRInput.GetLocalControllerAngularVelocity(OVRInput.Controller.RTouch);
             currentBall.GetComponent<BouncingBallLogic>().Release(ballPos, vel, angVel);
             ballGrabbed = false;
