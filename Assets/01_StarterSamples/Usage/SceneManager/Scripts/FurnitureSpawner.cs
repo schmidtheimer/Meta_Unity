@@ -101,6 +101,7 @@ public class FurnitureSpawner : MonoBehaviour
         }
 
         GameObject root = new GameObject("Root");
+        activePrefabs.Add(root);
         root.transform.parent = transform;
         root.transform.SetPositionAndRotation(position, rotation);
 
@@ -122,7 +123,6 @@ public class FurnitureSpawner : MonoBehaviour
             if (_classification.Contains(spawnable.ClassificationLabel))
             {
                 currentSpawnable = spawnable.ResizablePrefab;
-                activePrefabs.Add(currentSpawnable.gameObject);
                 return true;
             }
         }

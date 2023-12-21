@@ -12,8 +12,10 @@ public class TestAnchorGrabber : MonoBehaviour{
 
     bool inMenu;
     private Text sliderText;
-   
 
+    private void Awake(){
+        sceneManager.SceneModelLoadedSuccessfully += GetAnchors;
+    }
 
     void Start(){
         if (!DebugUIBuilder.instance) return;
@@ -86,7 +88,6 @@ public class TestAnchorGrabber : MonoBehaviour{
 
     private void FindTable(){
         List<OVRAnchor> roomLayoutAnchors = new List<OVRAnchor>();
-
         foreach(var anchor in sceneAnchors){
             if(!anchor.TryGetComponent(out OVRLocatable locatable)){
                 continue;
