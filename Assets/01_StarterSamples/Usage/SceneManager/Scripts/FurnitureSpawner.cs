@@ -33,6 +33,7 @@ public class FurnitureSpawner : MonoBehaviour
     public SimpleResizable FallbackPrefab;
 
     public List<Spawnable> SpawnablePrefabs;
+    public List<GameObject> activePrefabs;
 
     private OVRSceneAnchor _sceneAnchor;
     private OVRSemanticClassification _classification;
@@ -48,6 +49,7 @@ public class FurnitureSpawner : MonoBehaviour
         AddRoomLight();
         SpawnSpawnable();
         RemoveAnchorAutoScaling();
+        activePrefabs = new List<GameObject>();
     }
 
     private void SpawnSpawnable()
@@ -120,6 +122,7 @@ public class FurnitureSpawner : MonoBehaviour
             if (_classification.Contains(spawnable.ClassificationLabel))
             {
                 currentSpawnable = spawnable.ResizablePrefab;
+                activePrefabs.Add(currentSpawnable.gameObject);
                 return true;
             }
         }

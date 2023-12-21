@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/02_Scenes/03_Passthrough.unity
     guid: 7b02a195071070241ad7e5616c11b358
+  - enabled: 0
+    path: Assets/01_StarterSamples/Usage/DebugUI.unity
+    guid: 34004346bd7dcbf4fbfd78d2f12e4451
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 8c0030b4b5984e7439a553df0cdd7dd2, type: 2}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 67031ce161917494688d7e3203b6e379, type: 2}
