@@ -45,3 +45,11 @@ Start > Spawn Scene Room > Classifications are all children of scene room > thes
 
 THEORY:
 Sub to SceneLoaded event (wtv its called) then retrieve the scene room GO, and the classifications that contain table GO
+ - Retrieve scemantic labels instead. They will all have a public string label field. Thats how I get my table
+
+ Result:
+ Doing a Contains method is how I find tables. 
+ Now I have tables. tf do I do
+
+ To Do:
+ Either add or elaborate available furniture in scene

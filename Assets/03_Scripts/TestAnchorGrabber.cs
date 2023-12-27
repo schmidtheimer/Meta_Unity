@@ -14,7 +14,7 @@ public class TestAnchorGrabber : MonoBehaviour{
     private Text sliderText;
 
     private void Awake(){
-        sceneManager.SceneModelLoadedSuccessfully += GetAnchors;
+        sceneManager.SceneModelLoadedSuccessfully += FindTable;
     }
 
     void Start(){
@@ -86,15 +86,17 @@ public class TestAnchorGrabber : MonoBehaviour{
         else sceneAnchors = anchors;
     }
 
+    public List<GameObject> tables = new List<GameObject>();
+    public GameObject interactable;
     private void FindTable(){
-        List<OVRAnchor> roomLayoutAnchors = new List<OVRAnchor>();
-        foreach(var anchor in sceneAnchors){
-            if(!anchor.TryGetComponent(out OVRLocatable locatable)){
-                continue;
-            }
-            if (locatable.IsEnabled){
+        OVRSemanticClassification[] semantics = FindObjectsOfType<OVRSemanticClassification>();
 
-            }
+        for(int i = 0; i < semantics.Length; i++){
+            OVRSemanticClassification current = semantics[i];
+            if(current.Contains("TABLE"))
+            tables.Add(semantics[i].gameObject);
+            if (current.Contains("OTHER"))
+            interactable = semantics[i].gameObject;
         }
     }
 
