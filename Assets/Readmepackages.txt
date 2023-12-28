@@ -52,4 +52,7 @@ Sub to SceneLoaded event (wtv its called) then retrieve the scene room GO, and t
  Now I have tables. tf do I do
 
  To Do:
+ Find a way to add physics objects (after scene has been constructed)
+ Stencil shading to find virtual objs in a real env
  Either add or elaborate available furniture in scene
+ Add interactions for virtual objects 
