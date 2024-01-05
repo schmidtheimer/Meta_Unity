@@ -56,3 +56,9 @@ Sub to SceneLoaded event (wtv its called) then retrieve the scene room GO, and t
  Stencil shading to find virtual objs in a real env
  Either add or elaborate available furniture in scene
  Add interactions for virtual objects 
+
+
+
+
+ current issue:
+ stencil shading works in editor and .exe build but not .apk build?????????????????
