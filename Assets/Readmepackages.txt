@@ -62,3 +62,7 @@ Sub to SceneLoaded event (wtv its called) then retrieve the scene room GO, and t
 
  current issue:
  stencil shading works in editor and .exe build but not .apk build?????????????????
+
+ To Do:
+ Establish a way to access mesh data/ edit prefabs to add text etc. This is literally just for demo and speeding up dev process.
+ Add interactions and hand gestures shit

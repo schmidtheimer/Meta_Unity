@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Assertions;
 
-public class TestAnchorGrabber : MonoBehaviour{
+public class TestAnchorGrabber : MonoBehaviour {
 
     public OVRSceneManager sceneManager;
 
@@ -13,17 +13,21 @@ public class TestAnchorGrabber : MonoBehaviour{
     bool inMenu;
     private Text sliderText;
 
-    private void Awake(){
+    public bool placeObjects;
+    private bool placed = false;
+    public List<GameObject> objectsToPlace = new List<GameObject>();
+
+    private void Awake() {
         sceneManager.SceneModelLoadedSuccessfully += FindTable;
     }
 
-    void Start(){
+    void Start() {
         if (!DebugUIBuilder.instance) return;
 
         InitializeDebugUI();
     }
 
-    private void InitializeDebugUI(){
+    private void InitializeDebugUI() {
         DebugUIBuilder.instance.AddButton("Button Pressed", LogButtonPressed);
         DebugUIBuilder.instance.AddLabel("Label");
         var sliderPrefab = DebugUIBuilder.instance.AddSlider("Slider", 1.0f, 10.0f, SliderPressed, true);
@@ -72,6 +76,8 @@ public class TestAnchorGrabber : MonoBehaviour{
             else DebugUIBuilder.instance.Show();
             inMenu = !inMenu;
         }
+        if (!placed) return;
+        
     }
 
     void LogButtonPressed()
@@ -79,7 +85,7 @@ public class TestAnchorGrabber : MonoBehaviour{
         Debug.Log("Button pressed");
     }
 
-    private async void GetAnchors(){
+    private async void GetAnchors() {
         var anchors = new List<OVRAnchor>();
         await OVRAnchor.FetchAnchorsAsync<OVRRoomLayout>(anchors);
         if (anchors.Count == 0) return;
@@ -88,16 +94,25 @@ public class TestAnchorGrabber : MonoBehaviour{
 
     public List<GameObject> tables = new List<GameObject>();
     public GameObject interactable;
-    private void FindTable(){
+    private void FindTable() {
         OVRSemanticClassification[] semantics = FindObjectsOfType<OVRSemanticClassification>();
 
-        for(int i = 0; i < semantics.Length; i++){
+        for (int i = 0; i < semantics.Length; i++) {
             OVRSemanticClassification current = semantics[i];
-            if(current.Contains("TABLE"))
-            tables.Add(semantics[i].gameObject);
+            if (current.Contains("TABLE"))
+                tables.Add(semantics[i].gameObject);
             if (current.Contains("OTHER"))
-            interactable = semantics[i].gameObject;
+                interactable = semantics[i].gameObject;
         }
+        Invoke("PlaceItems", .2f);
     }
 
+    private void PlaceItems(){
+        if (!placeObjects)  return;
+
+        for (int i = 0; i < objectsToPlace.Count; i++){
+            objectsToPlace[i].transform.position = tables[0].transform.position + new Vector3(-1 + (i * .5f), 0.1f, 0); ;
+        }
+        placed = true;
+    }
 }
