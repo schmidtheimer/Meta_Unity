@@ -8,7 +8,8 @@ public class TestAnchorGrabber : MonoBehaviour {
 
     public OVRSceneManager sceneManager;
 
-    public List<OVRAnchor> sceneAnchors = new List<OVRAnchor>();
+    public List<OVRSemanticClassification> semanticClassificationObjects = new List<OVRSemanticClassification>();
+    [SerializeField] MeshRenderer[] allObjects;
 
     bool inMenu;
     private Text sliderText;
@@ -18,7 +19,7 @@ public class TestAnchorGrabber : MonoBehaviour {
     public List<GameObject> objectsToPlace = new List<GameObject>();
 
     private void Awake() {
-        sceneManager.SceneModelLoadedSuccessfully += FindTable;
+        sceneManager.SceneModelLoadedSuccessfully += StartSemanticCoroutine;
     }
 
     void Start() {
@@ -85,31 +86,44 @@ public class TestAnchorGrabber : MonoBehaviour {
         Debug.Log("Button pressed");
     }
 
-    private async void GetAnchors() {
-        var anchors = new List<OVRAnchor>();
-        await OVRAnchor.FetchAnchorsAsync<OVRRoomLayout>(anchors);
-        if (anchors.Count == 0) return;
-        else sceneAnchors = anchors;
-    }
-
     public List<GameObject> tables = new List<GameObject>();
     public GameObject interactable;
-    private void FindTable() {
-        OVRSemanticClassification[] semantics = FindObjectsOfType<OVRSemanticClassification>();
+    [ContextMenu("SetSemantics")]
+    public void StartSemanticCoroutine() { 
+        StartCoroutine(GetSemanticClassification()); 
+    }
 
-        for (int i = 0; i < semantics.Length; i++) {
-            OVRSemanticClassification current = semantics[i];
-            if (current.Contains("TABLE"))
-                tables.Add(semantics[i].gameObject);
-            if (current.Contains("OTHER"))
-                interactable = semantics[i].gameObject;
-                interactable.transform.SetParent(null);
+    private IEnumerator GetSemanticClassification() {
+        yield return new WaitForEndOfFrame();
+
+        allObjects = FindObjectsOfType<MeshRenderer>();
+        foreach (var obj in allObjects){
+            if (obj.GetComponent<Collider>() == null){
+                Debug.Log(obj);
+                obj.gameObject.AddComponent<BoxCollider>();
+            }
         }
-        Invoke("PlaceItems", .2f);
+        
+        var ovrArray = FindObjectsOfType<OVRSemanticClassification>();
+
+        for (int i = 0; i < ovrArray.Length; i++) {
+            semanticClassificationObjects.Add(ovrArray[i]);
+        }
+        
+        SortSemantics();
+    }
+
+    private void SortSemantics(){
+        foreach(OVRSemanticClassification ovr in semanticClassificationObjects){
+            if (ovr.Contains("TABLE")) tables.Add(ovr.gameObject);
+            if (ovr.Contains("OTHER")) interactable = ovr.gameObject;
+        }
+        if (tables.Count > 0) PlaceItems();
     }
 
     private void PlaceItems(){
         if (!placeObjects)  return;
+        if (interactable) interactable.transform.SetParent(null);
 
         for (int i = 0; i < objectsToPlace.Count; i++){
             objectsToPlace[i].transform.localPosition = tables[0].transform.position + new Vector3(-1 + (i * .5f), 0.1f, 0); //Places obj
@@ -118,9 +132,10 @@ public class TestAnchorGrabber : MonoBehaviour {
         if (tables.Count > 0) SetTablePuzzles();
     }
 
+    [SerializeField] TablePuzzleHandler tablePuzzle;
     private void SetTablePuzzles(){
         for(int tableIndex = 0; tableIndex < tables.Count; tableIndex++){
-            var tablePuzzle = tables[tableIndex].GetComponentInChildren<TablePuzzleHandler>();
+            tablePuzzle = tables[tableIndex].GetComponentInChildren<TablePuzzleHandler>();
             tablePuzzle.Initialize();
         }
     }

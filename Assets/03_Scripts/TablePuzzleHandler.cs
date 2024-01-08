@@ -25,7 +25,9 @@ public class TablePuzzleHandler : MonoBehaviour{
         textCodeObject.text = text;
         Vector3 originalTextPos = textCodeObject.transform.position;
         SetPos(textCodeObject.gameObject, new Vector3(originalTextPos.x, originalTextPos.y+1f, originalTextPos.z + (-.05f)));
+        Debug.Log(textCodeObject.transform.position);
     }
+
 
     public void SetPos(GameObject _obj, Vector3 pos){
         _obj.transform.localPosition = pos;

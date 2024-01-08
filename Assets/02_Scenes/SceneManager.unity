@@ -845,11 +845,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb743c666c1ab34e928a0b62c2fa862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &475524735 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 747806495401477014, guid: c813208e672e3074bbe118e1a9ee94fd, type: 3}
-  m_PrefabInstance: {fileID: 972644641}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &504131114
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -990,12 +985,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneManager: {fileID: 972644642}
+  semanticClassificationObjects: []
+  allObjects: []
   placeObjects: 1
   objectsToPlace:
   - {fileID: 1000565471}
   - {fileID: 1072138364}
   tables: []
   interactable: {fileID: 0}
+  tablePuzzle: {fileID: 0}
 --- !u!1001 &546027441
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1725,32 +1723,17 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 747806495401477014, guid: c813208e672e3074bbe118e1a9ee94fd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 972644645}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c813208e672e3074bbe118e1a9ee94fd, type: 3}
 --- !u!114 &972644642 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 747806495401477012, guid: c813208e672e3074bbe118e1a9ee94fd, type: 3}
   m_PrefabInstance: {fileID: 972644641}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 475524735}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2253d75e3ddc644b8153409c62dd74e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &972644645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 475524735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 598fa35ca0b19ec4585f928c351d6d92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1000565471 stripped
@@ -2637,7 +2620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 171552, guid: d380f9e938a273943861c2b69cdbb208, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 418522, guid: d380f9e938a273943861c2b69cdbb208, type: 3}
       propertyPath: m_LocalPosition.x

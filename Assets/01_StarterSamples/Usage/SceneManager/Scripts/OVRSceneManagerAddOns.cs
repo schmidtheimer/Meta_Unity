@@ -8,6 +8,7 @@ namespace MetaAdvancedFeatures.SceneUnderstanding
     public class OVRSceneManagerAddons : MonoBehaviour
     {
         protected OVRSceneManager SceneManager { get; private set; }
+        [SerializeField] MeshRenderer[] allObjects;
 
         private void Awake()
         {
@@ -30,7 +31,7 @@ namespace MetaAdvancedFeatures.SceneUnderstanding
             //                     for all prefabs to be populated properly before continuing
             yield return new WaitForEndOfFrame();
 
-            MeshRenderer[] allObjects = FindObjectsOfType<MeshRenderer>();
+            allObjects = FindObjectsOfType<MeshRenderer>();
 
             foreach (var obj in allObjects)
             {
@@ -47,7 +48,7 @@ namespace MetaAdvancedFeatures.SceneUnderstanding
 
             foreach(var classification in allClassifications)
             {
-                transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z * -1);
+                transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z );
             }
         }
     }
