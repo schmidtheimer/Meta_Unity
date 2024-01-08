@@ -103,6 +103,7 @@ public class TestAnchorGrabber : MonoBehaviour {
                 tables.Add(semantics[i].gameObject);
             if (current.Contains("OTHER"))
                 interactable = semantics[i].gameObject;
+                interactable.transform.SetParent(null);
         }
         Invoke("PlaceItems", .2f);
     }
@@ -111,8 +112,16 @@ public class TestAnchorGrabber : MonoBehaviour {
         if (!placeObjects)  return;
 
         for (int i = 0; i < objectsToPlace.Count; i++){
-            objectsToPlace[i].transform.position = tables[0].transform.position + new Vector3(-1 + (i * .5f), 0.1f, 0); ;
+            objectsToPlace[i].transform.localPosition = tables[0].transform.position + new Vector3(-1 + (i * .5f), 0.1f, 0); //Places obj
         }
         placed = true;
+        if (tables.Count > 0) SetTablePuzzles();
+    }
+
+    private void SetTablePuzzles(){
+        for(int tableIndex = 0; tableIndex < tables.Count; tableIndex++){
+            var tablePuzzle = tables[tableIndex].GetComponentInChildren<TablePuzzleHandler>();
+            tablePuzzle.Initialize();
+        }
     }
 }

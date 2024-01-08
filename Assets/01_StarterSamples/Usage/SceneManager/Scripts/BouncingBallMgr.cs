@@ -26,7 +26,7 @@ public class BouncingBallMgr : MonoBehaviour
     [SerializeField] private GameObject rightControllerPivot;
     [SerializeField] private OVRInput.RawButton actionBtn;
     [SerializeField] private GameObject ball;
-    public float speed;
+    [SerializeField] private GameObject ballParent;
 
     private GameObject currentBall;
     private bool ballGrabbed = false;
@@ -40,14 +40,31 @@ public class BouncingBallMgr : MonoBehaviour
             ballGrabbed = true;
         }
 
-        if (ballGrabbed && OVRInput.GetUp(actionBtn))
-        {
+        if (ballGrabbed && OVRInput.GetUp(actionBtn)){
             currentBall.transform.parent = null;
             var ballPos = currentBall.transform.position;
-            var vel = trackingspace.rotation * OVRInput.GetLocalControllerVelocity(OVRInput.Controller.RTouch)*speed;
+            var vel = trackingspace.rotation * OVRInput.GetLocalControllerVelocity(OVRInput.Controller.RTouch);
             var angVel = OVRInput.GetLocalControllerAngularVelocity(OVRInput.Controller.RTouch);
             currentBall.GetComponent<BouncingBallLogic>().Release(ballPos, vel, angVel);
             ballGrabbed = false;
         }
+    }
+
+    public void InstantiateBall(){
+        currentBall = Instantiate(ball, rightControllerPivot.transform.position, Quaternion.identity);
+        currentBall.transform.parent = ballParent.transform;
+        ballGrabbed = true;
+    }
+
+    public void ReleaseBall(){
+        if(!currentBall) return;
+        
+        currentBall.transform.parent = null;
+        var ballPos = currentBall.transform.position;
+        var vel = trackingspace.rotation * OVRInput.GetLocalControllerVelocity(OVRInput.Controller.RTouch);
+        var angVel = OVRInput.GetLocalControllerAngularVelocity(OVRInput.Controller.RTouch);
+        currentBall.GetComponent<BouncingBallLogic>().Release(ballPos, vel, angVel);
+        ballGrabbed = false;
+        currentBall = null;
     }
 }
