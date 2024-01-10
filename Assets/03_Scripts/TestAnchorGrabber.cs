@@ -17,6 +17,10 @@ public class TestAnchorGrabber : MonoBehaviour {
     public bool placeObjects;
     private bool placed = false;
     public List<GameObject> objectsToPlace = new List<GameObject>();
+    public List<GameObject> tables = new List<GameObject>();
+    public List<Transform> walls = new List<Transform>();
+    public GameObject interactable;
+    public event System.Action SortingCompleted;
 
     private void Awake() {
         sceneManager.SceneModelLoadedSuccessfully += StartSemanticCoroutine;
@@ -69,10 +73,8 @@ public class TestAnchorGrabber : MonoBehaviour {
         sliderText.text = f.ToString();
     }
 
-    void Update()
-    {
-        if (OVRInput.GetDown(OVRInput.Button.Two) || OVRInput.GetDown(OVRInput.Button.Start))
-        {
+    void Update(){
+        if (OVRInput.GetDown(OVRInput.Button.Two) || OVRInput.GetDown(OVRInput.Button.Start)){
             if (inMenu) DebugUIBuilder.instance.Hide();
             else DebugUIBuilder.instance.Show();
             inMenu = !inMenu;
@@ -86,8 +88,7 @@ public class TestAnchorGrabber : MonoBehaviour {
         Debug.Log("Button pressed");
     }
 
-    public List<GameObject> tables = new List<GameObject>();
-    public GameObject interactable;
+   
     [ContextMenu("SetSemantics")]
     public void StartSemanticCoroutine() { 
         StartCoroutine(GetSemanticClassification()); 
@@ -117,8 +118,10 @@ public class TestAnchorGrabber : MonoBehaviour {
         foreach(OVRSemanticClassification ovr in semanticClassificationObjects){
             if (ovr.Contains("TABLE")) tables.Add(ovr.gameObject);
             if (ovr.Contains("OTHER")) interactable = ovr.gameObject;
+            if (ovr.Contains("WALL_FACE")) walls.Add(ovr.transform);
         }
         if (tables.Count > 0) PlaceItems();
+        SortingCompleted?.Invoke();
     }
 
     private void PlaceItems(){
@@ -129,13 +132,13 @@ public class TestAnchorGrabber : MonoBehaviour {
             objectsToPlace[i].transform.localPosition = tables[0].transform.position + new Vector3(-1 + (i * .5f), 0.1f, 0); //Places obj
         }
         placed = true;
-        if (tables.Count > 0) SetTablePuzzles();
+        //if (tables.Count > 0) SetTablePuzzles();
     }
 
-    [SerializeField] TablePuzzleHandler tablePuzzle;
+    [SerializeField] TableHandler tablePuzzle;
     private void SetTablePuzzles(){
         for(int tableIndex = 0; tableIndex < tables.Count; tableIndex++){
-            tablePuzzle = tables[tableIndex].GetComponentInChildren<TablePuzzleHandler>();
+            tablePuzzle = tables[tableIndex].GetComponentInChildren<TableHandler>();
             tablePuzzle.Initialize();
         }
     }

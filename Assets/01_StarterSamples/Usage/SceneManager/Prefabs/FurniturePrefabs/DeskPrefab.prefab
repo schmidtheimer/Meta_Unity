@@ -550,7 +550,7 @@ MonoBehaviour:
   ScalingZ: 0
   PaddingZ: 0
   PaddingZMax: 0
-  _newSize: {x: 0.3866466, y: 0.2650778, z: 0.36273018}
+  _newSize: {x: 0.78, y: 0.2650778, z: 0.36273018}
   _updateInPlayMode: 1
   _pivotTransform: {fileID: 8396308771772615998}
 --- !u!114 &1734106072028941824
