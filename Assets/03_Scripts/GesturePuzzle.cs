@@ -12,7 +12,7 @@ public class GesturePuzzle : Puzzle {
     public List<ShapeRecognizerActiveState> shapeSequence = new List<ShapeRecognizerActiveState>();
     public static event Action onPoseSuccess, onPoseFail;
     public GameObject gestureUIParent, successText;
-    public TMPro.TextMeshProUGUI instructions;
+    public TMPro.TextMeshProUGUI instructionTextComponent;
     [SerializeField]private int currentIndex;
     [SerializeField] private ShapeRecognizer currentShape;
     [SerializeField] private bool recieveingInput = false;
@@ -41,12 +41,14 @@ public class GesturePuzzle : Puzzle {
         if (currentIndex >= shapeSequence.Count){
             completed = true;
             base.OnPuzzleCompleted();
+            puzzleCompletedUnityEvent?.Invoke();
             return;
         }
 
         successText.SetActive(false);
         
         currentShape = shapeSequence[currentIndex].Shapes[0];
+
         foreach(ShapeRecognizerActiveState shapeState in shapeSequence){
             if (shapeState.Shapes[0] != currentShape)
                 shapeState.gameObject.SetActive(false);
@@ -83,11 +85,12 @@ public class GesturePuzzle : Puzzle {
     //UI
     private void SetCanvasPosition(){
         if(anchorGrabber.tables.Count > 0){
+            Transform player = FindObjectOfType<OVRCameraRig>().transform;
             GameObject table = anchorGrabber.tables[0];
             gestureUIParent.transform.position = new Vector3(
-                table.transform.position.x,
+                player.transform.position.x,
                 table.transform.position.y + .1f, 
-                transform.position.z-.5f);
+                transform.position.z+.5f);
         }
     }
 
@@ -96,7 +99,7 @@ public class GesturePuzzle : Puzzle {
     }
 
     private void SetInstructionText(string shapeName){
-        instructions.text = "Show a " + shapeName + " pose";
+        instructionTextComponent.text = "Show a " + shapeName + " pose";
     }
 
 }
