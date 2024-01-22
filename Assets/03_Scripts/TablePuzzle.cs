@@ -37,14 +37,21 @@ public class TablePuzzle : Puzzle{
         successText.SetActive(false);
         failText.SetActive(false);
         PlaceButtons();
+        inputCombination = new char[4];
+        for(int i = 0; i < inputCombination.Length; i++){
+            inputCombination[i] = (char)61;
+        }
     }
 
     public void ToggleButtonStatus(ButtonPuzzle buttonIndex){
         buttonStatus[buttonIndex.buttonIdentity] = !buttonStatus[buttonIndex.buttonIdentity];
-        inputCombination[passIndex] = buttonIndex.buttonPassInput;
+        inputCombination[buttonIndex.buttonIdentity] = buttonIndex.buttonPassInput;
         UpdatePasscodeDisplay();
-        passIndex++;
-        if (passIndex < combination.Length) return;
+        for(int charIndex = 0; charIndex < combination.Length; charIndex++){
+            if(inputCombination[charIndex] != combination[charIndex]){
+                return;
+            }
+        }
         if (QueryPassCodeValidity()) {
             OnSuccessfulPassCode();
             return;
@@ -66,8 +73,20 @@ public class TablePuzzle : Puzzle{
         displayObject.transform.position = anchorGrabber.walls[1].position+(-codeDisplay_.transform.forward*1.1f)+(-codeDisplay_.transform.right*1.4f);
     }
 
+    
+    private string GetString(char[] c){
+        char[] newArray= new char[c.Length]; int index =0;
+        for(int i = 0; i < c.Length; i++){
+            if(c[i] != (char)0) { newArray[index] = c[i]; }
+        }
+        string s = string.Concat(inputCombination);
+        Debug.LogError(s);
+        return s;
+    }
+    [ContextMenu("Update Display")]
     private void UpdatePasscodeDisplay(){
-        codeDisplay_.text = inputCombination.ToString();
+
+        codeDisplay_.text = GetString(inputCombination);
     }
 
     private void OnSuccessfulPassCode(){
